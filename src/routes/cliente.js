@@ -4,4 +4,10 @@ const middleware = require("../middlewares/middlewares");
 
 const router = express.Router();
 
+router.get("/", controller.list);
+router.post("/", /*middleware.validateCliente,*/ controller.create);
+router.get("/:id", controller.get);
+router.put("/:id", /*middleware.validateCliente,*/ controller.update);
+router.delete("/:id", controller.remove);
+
 module.exports = router;
