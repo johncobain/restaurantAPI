@@ -9,6 +9,7 @@ router.post("/", /*middleware.validateCliente,*/ controller.create);
 router.get("/:id", controller.get);
 router.put("/:id", /*middleware.validateCliente,*/ controller.update);
 router.delete("/:id", controller.remove);
+
 router.post("/active/:id", controller.activate);
 router.delete("/active/:id", controller.removeActive);
 

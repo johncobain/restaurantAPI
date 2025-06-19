@@ -19,7 +19,7 @@ async function get(id) {
 
 async function create(clienteData) {
   if (!clienteData.nome || !clienteData.data_nascimento || !clienteData.cpf) {
-    throw new BadRequestError("Dados do cliente incompletos");
+    throw new BadRequestError("Dados do cliente incompletos"); // move to middleware
   }
   const existingCliente = await Cliente.findOne({
     where: { cpf: clienteData.cpf },
