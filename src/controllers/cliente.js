@@ -1,68 +1,76 @@
 const service = require("../services/cliente");
 
-async function list(req, res) {
-  try {
-    const clientes = await service.list();
-    return res.status(200).json(clientes);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-}
+const catchAsync = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
 
-async function get(req, res) {
+const list = catchAsync(async (req, res) => {
+  const query = {};
+  if (req.query.active !== undefined) {
+    query.active = req.query.active === "true";
+  }
+  const clientes = await service.list(query);
+  return res.status(200).json(clientes);
+});
+
+const get = catchAsync(async (req, res) => {
   const { id } = req.params;
-  try {
-    const cliente = await service.get(id);
-    return res.status(200).json(cliente);
-  } catch (error) {
-    return res.status(404).json({ message: error.message });
-  }
-}
+  const cliente = await service.get(id);
+  return res.status(200).json(cliente);
+});
 
-async function create(req, res) {
+const create = catchAsync(async (req, res) => {
   const clienteData = req.body;
-  try {
-    const cliente = await service.create(clienteData);
-    return res.status(201).json({
-      message: "Cliente criado com sucesso",
-      cliente: cliente,
-    });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-}
+  const cliente = await service.create(clienteData);
+  return res.status(201).json({
+    message: "Cliente criado com sucesso",
+    cliente: cliente,
+  });
+});
 
-async function update(req, res) {
+const update = catchAsync(async (req, res) => {
   const { id } = req.params;
   const clienteData = req.body;
-  try {
-    const cliente = await service.update(id, clienteData);
-    return res.status(200).json({
-      message: "Cliente editado com sucesso!",
-      cliente: cliente,
-    });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-}
+  const cliente = await service.update(id, clienteData);
+  return res.status(200).json({
+    message: "Cliente editado com sucesso!",
+    cliente: cliente,
+  });
+});
 
-async function remove(req, res) {
+const activate = catchAsync(async (req, res) => {
   const { id } = req.params;
-  try {
-    const cliente = await service.remove(id);
-    return res.status(200).json({
-      message: "Cliente removido com sucesso",
-      cliente: cliente,
-    });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-}
+  const cliente = await service.activate(id);
+  return res.status(200).json({
+    message: "Cliente ativado com sucesso",
+    cliente: cliente,
+  });
+});
+
+const removeActive = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const cliente = await service.removeActive(id);
+  return res.status(200).json({
+    message: "Cliente desativado com sucesso",
+    cliente: cliente,
+  });
+});
+
+const remove = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const cliente = await service.remove(id);
+  return res.status(200).json({
+    message: "Cliente removido com sucesso",
+    cliente: cliente,
+  });
+});
 
 module.exports = {
   list,
   get,
   create,
   update,
+  activate,
+  removeActive,
   remove,
 };
