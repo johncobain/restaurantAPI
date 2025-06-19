@@ -1,0 +1,38 @@
+clientes:
+
+  GET /clientes : Lista todos os clientes
+  GET /clientes?active={boolean} : Lista todos os clientes ativos/inativos
+  - Active é um campo booleano que indica se o usuário está ativo
+
+  POST /clientes : Cria um novo cliente
+  body: {
+    "nome": VARCHAR(255),
+    "data_nascimento": DATE,
+    "cpf": VARCHAR(11)
+  }
+
+  GET /clientes/{id} : Lista um cliente pelo seu id
+  PUT /clientes/{id} : Atualiza os dados de um cliente
+  DELETE /clientes/{id} : Remove um cliente
+
+  POST /clientes/active/{id} Ativa um cliente
+  DELETE /clientes/active/{id} Desativa um cliente
+pratos:
+
+  GET
+
+  POST
+
+  PUT
+  
+  DELETE
+
+pedidos:
+
+  GET
+
+  POST
+
+  PUT
+  
+  DELETE
