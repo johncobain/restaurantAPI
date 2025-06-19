@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/", controller.list);
 router.post("/", /*middleware.validateCliente,*/ controller.create);
 router.get("/:id", controller.get);
+router.get("/:id/details", controller.getDetails);
 router.put("/:id", /*middleware.validateCliente,*/ controller.update);
 router.delete("/:id", controller.remove);
 

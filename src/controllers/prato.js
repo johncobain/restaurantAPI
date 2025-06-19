@@ -19,6 +19,12 @@ const get = catchAsync(async (req, res) => {
   return res.status(200).json(prato);
 });
 
+const getDetails = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const prato = await service.getDetails(id);
+  return res.status(200).json(prato);
+});
+
 const create = catchAsync(async (req, res) => {
   const pratoData = req.body;
   const prato = await service.create(pratoData);
@@ -49,6 +55,7 @@ const remove = catchAsync(async (req, res) => {
 module.exports = {
   list,
   get,
+  getDetails,
   create,
   update,
   remove,

@@ -31,4 +31,11 @@ const Prato = database.define(
   }
 );
 
+Prato.associate = (models) => {
+  Prato.hasMany(models.Pedido, {
+    foreignKey: "pratoId",
+    as: "pedidos",
+  });
+};
+
 module.exports = Prato;

@@ -12,6 +12,20 @@ async function get(id) {
   return prato;
 }
 
+async function getDetails(id) {
+  const prato = await Prato.findByPk(id, {
+    include: [
+      {
+        association: "pedidos",
+      },
+    ],
+  });
+  if (!prato) {
+    throw new NotFoundError("Prato não encontrado");
+  }
+  return prato;
+}
+
 async function create(pratoData) {
   return await Prato.create(pratoData);
 }
@@ -35,6 +49,7 @@ async function remove(id) {
 module.exports = {
   list,
   get,
+  getDetails,
   create,
   update,
   remove,

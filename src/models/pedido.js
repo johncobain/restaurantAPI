@@ -25,6 +25,11 @@ const Pedido = database.define(
         key: "id",
       },
     },
+    data_pedido: {
+      type: Sequelize.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.NOW,
+    },
     atendido: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
@@ -34,5 +39,10 @@ const Pedido = database.define(
     timestamps: true,
   }
 );
+
+Pedido.associate = function (models) {
+  Pedido.belongsTo(models.Cliente, { foreignKey: "clienteId", as: "cliente" });
+  Pedido.belongsTo(models.Prato, { foreignKey: "pratoId", as: "prato" });
+};
 
 module.exports = Pedido;

@@ -19,6 +19,12 @@ const get = catchAsync(async (req, res) => {
   return res.status(200).json(cliente);
 });
 
+const getDetails = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const cliente = await service.getDetails(id);
+  return res.status(200).json(cliente);
+});
+
 const create = catchAsync(async (req, res) => {
   const clienteData = req.body;
   const cliente = await service.create(clienteData);
@@ -68,6 +74,7 @@ const remove = catchAsync(async (req, res) => {
 module.exports = {
   list,
   get,
+  getDetails,
   create,
   update,
   activate,

@@ -32,4 +32,11 @@ const Cliente = database.define(
   }
 );
 
+Cliente.associate = (models) => {
+  Cliente.hasMany(models.Pedido, {
+    foreignKey: "clienteId",
+    as: "pedidos",
+  });
+};
+
 module.exports = Cliente;

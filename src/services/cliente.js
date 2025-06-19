@@ -17,6 +17,20 @@ async function get(id) {
   return cliente;
 }
 
+async function getDetails(id) {
+  const cliente = await Cliente.findByPk(id, {
+    include: [
+      {
+        association: "pedidos",
+      },
+    ],
+  });
+  if (!cliente) {
+    throw new NotFoundError("Cliente não encontrado");
+  }
+  return cliente;
+}
+
 async function create(clienteData) {
   if (!clienteData.nome || !clienteData.data_nascimento || !clienteData.cpf) {
     throw new BadRequestError("Dados do cliente incompletos"); // move to middleware
@@ -81,6 +95,7 @@ async function remove(id) {
 module.exports = {
   list,
   get,
+  getDetails,
   create,
   update,
   activate,
