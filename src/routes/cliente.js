@@ -5,12 +5,12 @@ const middleware = require("../middlewares/middlewares");
 const router = express.Router();
 
 router.get("/", controller.list);
-router.post("/", /*middleware.validateCliente,*/ controller.create);
+router.post("/", middleware.validateClienteCreate, controller.create);
 router.get("/most-orders", controller.listByOrdersQuantity);
 router.get("/most-spent", controller.listByMostSpent);
 router.get("/:id", controller.get);
 router.get("/:id/details", controller.getDetails);
-router.put("/:id", /*middleware.validateCliente,*/ controller.update);
+router.put("/:id", middleware.validateClienteUpdate, controller.update);
 router.delete("/:id", controller.remove);
 
 router.post("/active/:id", controller.activate);
