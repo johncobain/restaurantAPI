@@ -4,7 +4,7 @@ Desenvolva uma API Rest para um restaurante, controlando os pratos pedidos pelos
 
 As seguintes regras de negócio devem ser validadas:
 
-- Um cliente deve ter um CPF válido registrado
+- Um cliente deve ter um CPF válido registrado ✅
 - Nomes de pratos devem conter apenas letras, tendo no mínimo 3 e no máximo 50 caracteres ✅
 
 Além das operações básicas de CRUD deve ser possível gerar os seguintes relatórios:
