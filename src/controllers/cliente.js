@@ -71,6 +71,23 @@ const remove = catchAsync(async (req, res) => {
   });
 });
 
+const listByOrdersQuantity = catchAsync(async (req, res) => {
+  const { quantity } = req.query;
+
+  const limit = parseInt(quantity, 5);
+  const clientes = await service.listByOrdersQuantity(
+    !isNaN(limit) ? limit : null
+  );
+  return res.status(200).json(clientes);
+});
+
+const listByMostSpent = catchAsync(async (req, res) => {
+  const { quantity } = req.query;
+  const limit = parseInt(quantity, 5);
+  const clientes = await service.listByMostSpent(!isNaN(limit) ? limit : null);
+  return res.status(200).json(clientes);
+});
+
 module.exports = {
   list,
   get,
@@ -80,4 +97,6 @@ module.exports = {
   activate,
   removeActive,
   remove,
+  listByOrdersQuantity,
+  listByMostSpent,
 };

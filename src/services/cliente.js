@@ -3,7 +3,10 @@ const {
   BadRequestError,
   ConflictError,
 } = require("../errors/AppError");
+const sequelize = require("../database/database");
 const Cliente = require("../models/cliente");
+const Pedido = require("../models/pedido");
+const Prato = require("../models/prato");
 
 async function list(query = {}) {
   return await Cliente.findAll({ where: query });
@@ -92,6 +95,64 @@ async function remove(id) {
   return cliente;
 }
 
+async function listByOrdersQuantity(limit) {
+  const query = {
+    attributes: {
+      include: [
+        [sequelize.fn("COUNT", sequelize.col("pedidos.id")), "totalPedidos"],
+      ],
+    },
+    include: [
+      {
+        model: Pedido,
+        as: "pedidos",
+        attributes: [],
+      },
+    ],
+    group: ["cliente.id"],
+    order: [[sequelize.fn("COUNT", sequelize.col("pedidos.id")), "DESC"]],
+    subQuery: false,
+  };
+  if (limit) {
+    query.limit = limit;
+  }
+  return await Cliente.findAll(query);
+}
+
+async function listByMostSpent(limit) {
+  const query = {
+    attributes: {
+      include: [
+        [
+          sequelize.fn("SUM", sequelize.col("pedidos.prato.preco")),
+          "totalGasto",
+        ],
+      ],
+    },
+    include: [
+      {
+        model: Pedido,
+        as: "pedidos",
+        attributes: [],
+        include: [
+          {
+            model: Prato,
+            as: "prato",
+            attributes: [],
+          },
+        ],
+      },
+    ],
+    group: ["cliente.id"],
+    order: [[sequelize.literal('"totalGasto"'), "DESC NULLS LAST"]],
+    subQuery: false,
+  };
+  if (limit) {
+    query.limit = limit;
+  }
+  return await Cliente.findAll(query);
+}
+
 module.exports = {
   list,
   get,
@@ -101,4 +162,6 @@ module.exports = {
   activate,
   removeActive,
   remove,
+  listByOrdersQuantity,
+  listByMostSpent,
 };

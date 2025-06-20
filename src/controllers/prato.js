@@ -52,6 +52,11 @@ const remove = catchAsync(async (req, res) => {
   });
 });
 
+const listByOrdersQuantity = catchAsync(async (req, res) => {
+  const pratos = await service.listByOrdersQuantity();
+  return res.status(200).json(pratos);
+});
+
 module.exports = {
   list,
   get,
@@ -59,4 +64,5 @@ module.exports = {
   create,
   update,
   remove,
+  listByOrdersQuantity,
 };

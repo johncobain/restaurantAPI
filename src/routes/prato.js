@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get("/", controller.list);
 router.post("/", /*middleware.validatePrato,*/ controller.create);
+router.get("/popularity", controller.listByOrdersQuantity);
 router.get("/:id", controller.get);
 router.get("/:id/details", controller.getDetails);
 router.put("/:id", /*middleware.validatePrato,*/ controller.update);

@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get("/", controller.list);
 router.post("/", /*middleware.validateCliente,*/ controller.create);
+router.get("/most-orders", controller.listByOrdersQuantity);
+router.get("/most-spent", controller.listByMostSpent);
 router.get("/:id", controller.get);
 router.get("/:id/details", controller.getDetails);
 router.put("/:id", /*middleware.validateCliente,*/ controller.update);

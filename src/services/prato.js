@@ -1,4 +1,7 @@
+const { NotFoundError } = require("../errors/AppError.js");
 const Prato = require("../models/prato");
+const Pedido = require("../models/pedido");
+const sequelize = require("../database/database.js");
 
 async function list(query = {}) {
   return await Prato.findAll({ where: query });
@@ -46,6 +49,25 @@ async function remove(id) {
   await prato.destroy();
 }
 
+async function listByOrdersQuantity() {
+  return await Prato.findAll({
+    attributes: {
+      include: [
+        [sequelize.fn("COUNT", sequelize.col("pedidos.id")), "totalPedidos"],
+      ],
+    },
+    include: [
+      {
+        model: Pedido,
+        as: "pedidos",
+        attributes: [],
+      },
+    ],
+    group: ["prato.id"],
+    order: [[sequelize.fn("COUNT", sequelize.col("pedidos.id")), "DESC"]],
+  });
+}
+
 module.exports = {
   list,
   get,
@@ -53,4 +75,5 @@ module.exports = {
   create,
   update,
   remove,
+  listByOrdersQuantity,
 };
