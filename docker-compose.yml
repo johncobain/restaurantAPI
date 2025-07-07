@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  restaurant-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: restaurant-api
+    ports:
+      - "3000:3000"
+    environment:
+      DB_NAME: restaurant_api
+      DB_USER: postgres
+      DB_PASSWORD: 1994
+      DB_DIALECT: postgres
+      DB_HOST: postgres
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: restaurant_api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1994
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
